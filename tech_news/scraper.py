@@ -27,14 +27,18 @@ def scrape_novidades(html_content):
     for article in selector.css(".entry-preview"):
         link = article.css("h2 a::attr(href)").get()
         result.append(link)
-        print(link)
 
     return result
 
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    result = selector.css(".next::attr(href)").get()
+    if result:
+        return result
+    else:
+        return None
 
 
 # Requisito 4
