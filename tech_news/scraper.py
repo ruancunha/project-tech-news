@@ -45,19 +45,21 @@ def scrape_next_page_link(html_content):
 def scrape_noticia(html_content):
     selector = Selector(text=html_content)
     result = {}
-    result["url"] = ""  # não sei como pegar no html
-    result["title"] = selector.css("h1.entry-title::text").get()
+    result["url"] = selector.css("link[rel=canonical]::attr(href)").get()
+    result["title"] = selector.css("h1.entry-title::text").get().strip()
     result["timestamp"] = selector.css(".meta-date::text").get()
-    # incerto se deve ser uma string ou date
     result["writer"] = selector.css("span.author a::text").get()
     try:
         result["comments_count"] = int(selector.css(
           ".post-comments h5.title-block::text").re(r"\d+")[0])
     except IndexError:
         result["comments_count"] = 0
-    result["summary"] = selector.css(".entry-content p::text").get()
-    # alguns paragrafos são quebrados por um <strong>
-    result["tags"] = []  # não sei onde encontrar na página
+
+    result["summary"] = "".join(
+      selector.css(".entry-content > p:nth-of-type(1) *::text").getall()
+      ).strip()
+
+    result["tags"] = selector.css(".post-tags li a::text").getall()
     result["category"] = selector.css("span.label::text").get()
 
     return result
