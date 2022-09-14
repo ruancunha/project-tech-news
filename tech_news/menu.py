@@ -1,5 +1,6 @@
 import sys
 from tech_news.scraper import get_tech_news
+from tech_news.analyzer.ratings import top_5_news, top_5_categories
 from tech_news.analyzer.search_engine import (
   search_by_title,
   search_by_date,
@@ -33,6 +34,14 @@ def get_by_category():
     search_by_category(category)
 
 
+def get_top_news():
+    top_5_news()
+
+
+def get_top_categories():
+    top_5_categories()
+
+
 def end_script():
     print("Encerrando script")
 
@@ -44,8 +53,8 @@ def option_director(option):
       get_by_date,
       get_by_tag,
       get_by_category,
-      "top 5 noticias",
-      "top 5 categorias",
+      get_top_news,
+      get_top_categories,
       end_script
     ]
     try:
