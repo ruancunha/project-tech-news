@@ -1,31 +1,36 @@
 import sys
-# from tech_news.scraper import get_tech_news
-# from tech_news.analyzer.search_engine import (
-#   search_by_title,
-#   search_by_date,
-#   search_by_category,
-#   search_by_tag
-# )
+from tech_news.scraper import get_tech_news
+from tech_news.analyzer.search_engine import (
+  search_by_title,
+  search_by_date,
+  search_by_category,
+  search_by_tag
+)
 
 
 def populate_db():
-    print("Digite quantas notícias serão buscadas:")
+    news_num = input("Digite quantas notícias serão buscadas:")
+    get_tech_news(news_num)
 
 
 def get_by_title():
-    print("Digite o título:")
+    title = input("Digite o título:")
+    search_by_title(title)
 
 
 def get_by_date():
-    print("Digite a data no formato aaaa-mm-dd:")
+    date = input("Digite a data no formato aaaa-mm-dd:")
+    search_by_date(date)
 
 
 def get_by_tag():
-    print("Digite a tag:")
+    tag = input("Digite a tag:")
+    search_by_tag(tag)
 
 
 def get_by_category():
-    print("Digite a categoria:")
+    category = input("Digite a categoria:")
+    search_by_category(category)
 
 
 def end_script():
