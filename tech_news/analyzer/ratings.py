@@ -14,4 +14,16 @@ def top_5_news():
 
 # Requisito 11
 def top_5_categories():
-    return ["category1", "category2"]
+    news = search_news({})
+    categories = dict()
+    for article in news:
+        if article["category"] in categories:
+            categories[article["category"]] += 1
+        else:
+            categories[article["category"]] = 1
+
+    result = sorted(
+      [(category, categories[category]) for category in categories],
+      key=lambda x: (x[0], -x[1]))
+
+    return [tup[0] for tup in sorted(result, key=lambda x: -x[1])][:5]
