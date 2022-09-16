@@ -4,7 +4,7 @@ from parsel import Selector
 from tech_news.database import create_news
 
 
-# Requisito 1
+# Função para colher os dados da página
 def fetch(url):
     try:
         time.sleep(1)
@@ -13,7 +13,6 @@ def fetch(url):
           headers={"user-agent": "Fake user-agent"},
           timeout=3)
 
-        # time.sleep(1) >> testar se funciona após
         if response.status_code != 200:
             return None
         return response.text
@@ -21,7 +20,7 @@ def fetch(url):
         return None
 
 
-# Requisito 2
+# Captura os links de cada notícia
 def scrape_novidades(html_content):
     selector = Selector(text=html_content)
     result = []
@@ -32,7 +31,7 @@ def scrape_novidades(html_content):
     return result
 
 
-# Requisito 3
+# Captura o botão que passa para a próxima página
 def scrape_next_page_link(html_content):
     selector = Selector(text=html_content)
     result = selector.css(".next::attr(href)").get()
@@ -42,7 +41,7 @@ def scrape_next_page_link(html_content):
         return None
 
 
-# Requisito 4
+# Captura as informações da notícia
 def scrape_noticia(html_content):
     selector = Selector(text=html_content)
     result = {}
@@ -66,18 +65,19 @@ def scrape_noticia(html_content):
     return result
 
 
-# Requisito 5
+# Captura quantas noticias o usuário solicitou
+#  e lança os dados delas no banco de dados
 def get_tech_news(amount):
     html = fetch("https://blog.betrybe.com")
     html_list = scrape_novidades(html)
     result = []
     counter = 0
-    while len(html_list) < amount:
+    while len(html_list) < int(amount):
         next = scrape_next_page_link(html)
         html = fetch(next)
         html_list.extend(scrape_novidades(html))
 
-    while counter < amount:
+    while counter < int(amount):
         article = fetch(html_list[counter])
         result.append(scrape_noticia(article))
         counter += 1

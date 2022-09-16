@@ -67,7 +67,7 @@ def option_director(option):
         print("Opção inválida", file=sys.stderr)
 
 
-# Requisito 12
+# Menu principal
 def analyzer_menu():
     print(
         "Selecione uma das opções a seguir:\n"
@@ -78,7 +78,7 @@ def analyzer_menu():
         " 4 - Buscar notícias por categoria;\n"
         " 5 - Listar top 5 notícias;\n"
         " 6 - Listar top 5 categorias;\n"
-        " 7 - Sair.", sep='', end="")
+        " 7 - Sair.")
 
     option = input()
 
